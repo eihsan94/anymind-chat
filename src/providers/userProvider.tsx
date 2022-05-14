@@ -4,7 +4,7 @@ interface User {
     userId: string
 }
 const initUser: User = {
-    userId: "Joyse",
+    userId: localStorage.getItem("initUserId") || "Joyse",
 }
 
 // Create Context Object
@@ -22,6 +22,7 @@ export function UserProvider(props: Props) {
     const { children } = props
     const [currentUser, setCurrentUser] = useState<User>(initUser);
     const assignCurrentUser = (newUser: User) => {
+        localStorage.setItem("initUserId", newUser.userId)
         setCurrentUser(newUser)
     }
     return (

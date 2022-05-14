@@ -7,3 +7,4 @@ export interface Message {
 export interface UnsentMessage extends Message {
     channelId: string;
 }
+export type Draft = Omit<UnsentMessage, "datetime">

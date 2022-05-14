@@ -4,7 +4,7 @@ interface Channel {
     channelId: string
 }
 const initChannel: Channel = {
-    channelId: "1",
+    channelId: localStorage.getItem("initChannelId") || "1",
 }
 
 // Create Context Object
@@ -22,6 +22,7 @@ export function ChannelProvider(props: Props) {
     const { children } = props
     const [currentChannel, setCurrentChannel] = useState<Channel>(initChannel);
     const assignCurrentChannel = (newChannel: Channel) => {
+        localStorage.setItem("initChannelId", newChannel.channelId)
         setCurrentChannel(newChannel)
     }
     return (
