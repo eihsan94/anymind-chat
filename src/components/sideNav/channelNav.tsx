@@ -1,20 +1,15 @@
+import { MockChannelData } from '@/mock/mockChannelData'
+import { useChannelContext } from '@/providers/channelProvider'
 import styled from '@emotion/styled'
-import { useState } from 'react'
 import { Text } from '../core-ui/text'
 
 interface Props { }
 
-const CHANNEL_DATA = [
-    { id: 1, name: "General Channel" },
-    { id: 2, name: "Technology Channel" },
-    { id: 3, name: "LGTM Channel" },
-]
 
 function ChannelNav(props: Props) {
-    const [currChannelId, setCurrChannelId] = useState(0)
-    const goToChannel = (channelId: number) => {
-        console.log("go to channel", channelId);
-        setCurrChannelId(channelId)
+    const { currentChannel, assignCurrentChannel } = useChannelContext()
+    const goToChannel = (channelId: string) => {
+        assignCurrentChannel({ channelId: channelId })
     }
 
     return (
@@ -23,8 +18,8 @@ function ChannelNav(props: Props) {
                 2. Choose your Channel
             </Text>
             <ChannelNavContent>
-                {CHANNEL_DATA.map((channel, i) => <ChannelNavItem key={i} onClick={() => goToChannel(channel.id)} isSelected={currChannelId === channel.id}>
-                    {channel.name}
+                {MockChannelData.map((channel, i) => <ChannelNavItem key={i} onClick={() => goToChannel(channel.id)} isSelected={currentChannel.channelId === channel.id}>
+                    {channel.name} Channel
                 </ChannelNavItem>)}
             </ChannelNavContent>
         </ChannelNavContainer>

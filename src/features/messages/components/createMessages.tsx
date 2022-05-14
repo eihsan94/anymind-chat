@@ -8,7 +8,7 @@ import { GrSend } from 'react-icons/gr'
 interface Props {
 }
 
-export function CreateChat(props: Props) {
+export function CreateMessage(props: Props) {
     // const { height } = props
 
     return (

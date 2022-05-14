@@ -8,7 +8,7 @@ interface Props {
     type: "PREV" | "NEXT";
 }
 
-function ReadMoreChatButton(props: Props) {
+function ReadMoreMessageButton(props: Props) {
     const { type } = props
 
     return (
@@ -22,4 +22,4 @@ function ReadMoreChatButton(props: Props) {
     )
 }
 
-export default ReadMoreChatButton
+export default ReadMoreMessageButton

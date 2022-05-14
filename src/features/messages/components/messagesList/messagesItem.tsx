@@ -1,47 +1,51 @@
 import { Avatar } from '@/components/core-ui/avatar';
 import Icon from '@/components/core-ui/icons/icons';
 import { Text } from '@/components/core-ui/text';
+import { MockUserImage } from '@/mock/mockUserData';
+import { fmtTime } from '@/utils/dateUtils';
 import styled from '@emotion/styled'
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { MdError } from 'react-icons/md';
+import { Message } from '../../types';
 
 
 interface Props {
+    message: Message;
     isCurrentUser: boolean;
     isSuccess: boolean;
 }
 
-function ChatItem(props: Props) {
-    const { isCurrentUser, isSuccess } = props
-
+function MessageItem(props: Props) {
+    const { isCurrentUser, isSuccess, message } = props
+    const { text, datetime, userId } = message
+    const avatarImage = MockUserImage[userId]
     return (
-        <ChatItemContainer isCurrentUser={isCurrentUser}>
-            <Avatar image="https://images.unsplash.com/photo-1644982647711-9129d2ed7ceb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80" name="Russell" />
-            <ChatBubble isCurrentUser={isCurrentUser}>
-                Hello i am ihsan <br />
-                i am so awesome handsome and smart  <br />
-            </ChatBubble>
-            <ChatStatus>
-                <ChatStatusContent>
+        <MessageItemContainer isCurrentUser={isCurrentUser}>
+            <Avatar image={avatarImage} name={message.userId} />
+            <MessageBubble isCurrentUser={isCurrentUser}>
+                {text}
+            </MessageBubble>
+            <MessageStatus>
+                <MessageStatusContent>
                     <Text>
-                        8:55
+                        {fmtTime(datetime)}
                     </Text>
                     {
                         isCurrentUser &&
                         <Status isSuccess={isSuccess} />
                     }
-                </ChatStatusContent>
-            </ChatStatus>
-        </ChatItemContainer>
+                </MessageStatusContent>
+            </MessageStatus>
+        </MessageItemContainer>
     )
 }
 
-export default ChatItem
+export default MessageItem
 
-interface ChatItemContainerProps {
+interface MessageItemContainerProps {
     isCurrentUser: boolean;
 }
-const ChatItemContainer = styled.div<ChatItemContainerProps>`
+const MessageItemContainer = styled.div<MessageItemContainerProps>`
     margin: 2em 0;
     display: flex;
     flex-direction: ${({ isCurrentUser }) => isCurrentUser ? "row-reverse" : "row"};
@@ -64,10 +68,10 @@ const LeftArrowStyle = `
     border-width: 8px 9px 8px 0px;
     border-color: transparent #FFFFFF transparent transparent;
 `
-interface ChatBubbleProps {
+interface MessageBubbleProps {
     isCurrentUser: boolean;
 }
-const ChatBubble = styled.div<ChatBubbleProps>`
+const MessageBubble = styled.div<MessageBubbleProps>`
     border-radius: 5px;
     padding: 10px;
     background: #FFFFFF;
@@ -86,12 +90,12 @@ const ChatBubble = styled.div<ChatBubbleProps>`
         ${({ isCurrentUser }) => isCurrentUser ? RightArrowStyle : LeftArrowStyle};
     }
 `
-const ChatStatus = styled.div`
+const MessageStatus = styled.div`
     font-size:12px;
     margin: auto 0;
     height: 100%;
 `
-const ChatStatusContent = styled.div`
+const MessageStatusContent = styled.div`
     display: flex;
 `
 interface StatusProps {
@@ -119,5 +123,4 @@ const StatusContainer = styled.div`
     display: flex;
     align-items: center;
     height: 100%;
-    background: beige;
 `
