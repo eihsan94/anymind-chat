@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
-import { Heading1, Text } from "../../core-ui/text";
+import { Heading1, Text } from "../core-ui/text";
 
 interface Props {
     height: number;
 }
 
-function TopNav(props: Props) {
+export function TopNav(props: Props) {
     const { height } = props
     return (
         <TopNavContainer height={height}>
@@ -19,7 +19,6 @@ function TopNav(props: Props) {
     )
 }
 
-export default TopNav
 
 
 const TopNavContainer = styled.div<Props>`

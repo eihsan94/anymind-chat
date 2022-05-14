@@ -1,12 +1,13 @@
+import { Theme } from "@/styles/theme";
 import styled from "@emotion/styled";
-import { Theme } from "../../../styles/theme";
+
 import ChannelNav from "./channelNav";
 import UserNav from "./userNav";
 
 
 interface Props { }
 
-function SideNav(props: Props) {
+export function SideNav(props: Props) {
     // const {} = props
 
     return (
@@ -17,7 +18,6 @@ function SideNav(props: Props) {
     )
 }
 
-export default SideNav
 
 
 const SideNavContainer = styled.div`

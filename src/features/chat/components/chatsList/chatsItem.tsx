@@ -1,10 +1,10 @@
+import { Avatar } from '@/components/core-ui/avatar';
+import Icon from '@/components/core-ui/icons/icons';
+import { Text } from '@/components/core-ui/text';
 import styled from '@emotion/styled'
-import React from 'react'
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { MdError } from 'react-icons/md';
-import Avatar from '../../../core-ui/avatar'
-import { Text } from '../../../core-ui/text'
-import Icon from '../../../core-ui/icons';
+
 
 interface Props {
     isCurrentUser: boolean;

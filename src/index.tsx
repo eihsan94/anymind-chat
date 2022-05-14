@@ -2,10 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {
-  ApolloProvider,
-} from "@apollo/client";
-import gqlClient from './services/apolloClient.service';
 
 
 const root = ReactDOM.createRoot(
@@ -13,9 +9,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <ApolloProvider client={gqlClient}>
-      <App />
-    </ApolloProvider>
+    <App />
   </React.StrictMode>
 );
 

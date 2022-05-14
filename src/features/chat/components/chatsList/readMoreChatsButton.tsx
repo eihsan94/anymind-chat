@@ -1,6 +1,7 @@
-import React from 'react'
-import { PrimaryButton } from '../../../core-ui/button'
-import Icon from '../../../core-ui/icons'
+
+import { PrimaryButton } from '@/components/core-ui/button';
+import Icon from '@/components/core-ui/icons/icons';
+
 import { BsArrowDownShort, BsArrowUpShort } from 'react-icons/bs';
 
 interface Props {

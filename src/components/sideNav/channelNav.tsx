@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { useState } from 'react'
-import { Text } from '../../core-ui/text'
+import { Text } from '../core-ui/text'
 
 interface Props { }
 
