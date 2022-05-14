@@ -16,5 +16,6 @@ export const Select = styled.select`
     color: #6E7378;
     padding: 10px 1em;
     background-color: #FFFFFF;
+    cursor: pointer;
 `
 

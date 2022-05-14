@@ -5,6 +5,8 @@ import {
     InMemoryCache,
 } from "@apollo/client";
 import { API_URL } from '@/config';
+import { UserProvider } from './userProvider';
+import { ChannelProvider } from './channelProvider';
 
 const gqlClient = new ApolloClient({
     uri: API_URL,
@@ -21,7 +23,11 @@ function AppProvider(props: AppProviderProps) {
 
     return (
         <ApolloProvider client={gqlClient}>
-            {children}
+            <UserProvider>
+                <ChannelProvider>
+                    {children}
+                </ChannelProvider>
+            </UserProvider>
         </ApolloProvider>
     )
 }

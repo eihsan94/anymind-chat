@@ -2,14 +2,14 @@
 import "./styles/global.css";
 
 import AppProvider from "./providers/appProvider";
-import { Chats } from "./features/chat";
+import { Messages } from "./features/messages";
 
 
 
 function App() {
   return (
     <AppProvider>
-      <Chats />
+      <Messages />
     </AppProvider>
   );
 }
