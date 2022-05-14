@@ -18,14 +18,18 @@ function Grid(props: Props) {
 export default Grid
 
 const GridContainer = styled.div`
-`
+    height: 100%;
+    
+    `
 export const Row = styled.div`
     display: flex;
+    height: 100%;
 `
 
 interface ColProps {
     size: number
 }
 export const Col = styled.div<ColProps>`
+    height: 100%;
     flex: ${({ size }) => size};
 `

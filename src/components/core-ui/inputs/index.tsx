@@ -1,4 +1,4 @@
-import chevronDown from "../../assets/icons/chevronDown.svg"
+import chevronDown from "../../../assets/icons/chevronDown.svg"
 import styled from "@emotion/styled";
 
 export const Select = styled.select`
@@ -16,4 +16,8 @@ export const Select = styled.select`
     color: #6E7378;
     padding: 10px 1em;
     background-color: #FFFFFF;
+`
+
+export const TextAreaInput = styled.textarea`
+    width: 100%;
 `
