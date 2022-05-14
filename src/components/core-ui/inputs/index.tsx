@@ -20,4 +20,5 @@ export const Select = styled.select`
 
 export const TextAreaInput = styled.textarea`
     width: 100%;
+    font-family: 'Roboto', sans-serif;
 `
