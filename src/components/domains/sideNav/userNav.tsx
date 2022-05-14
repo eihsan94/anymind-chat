@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
-import { Select } from '../inputs'
-import { Text } from '../text'
+import { Select } from '../../core-ui/inputs'
+import { Text } from '../../core-ui/text'
 
 interface Props { }
 
