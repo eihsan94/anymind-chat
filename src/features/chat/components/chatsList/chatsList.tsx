@@ -1,15 +1,15 @@
 import styled from '@emotion/styled'
-import React from 'react'
-import ChatItem from './chatItem'
-import ReadMoreChatButton from './readMoreChatButton'
+import ChatItem from './chatsItem'
+import ReadMoreChatButton from './readMoreChatsButton'
+
 
 interface Props { }
 
-function ChatContent(props: Props) {
+export function ChatsList(props: Props) {
     // const {} = props
 
     return (
-        <ChatContentContainer>
+        <ChatsListContainer>
             <PrevChatButton />
             <ChatSection>
                 <ChatItem isCurrentUser={false} isSuccess={true} />
@@ -19,13 +19,12 @@ function ChatContent(props: Props) {
                 <ChatItem isCurrentUser={true} isSuccess={false} />
             </ChatSection>
             <NextChatButton />
-        </ChatContentContainer>
+        </ChatsListContainer>
     )
 }
 
-export default ChatContent
 
-const ChatContentContainer = styled.div`
+const ChatsListContainer = styled.div`
     height: 100%;
     position: relative;
 `

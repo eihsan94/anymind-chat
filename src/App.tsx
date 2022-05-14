@@ -1,9 +1,16 @@
-import Chat from "./view/chat";
+
 import "./styles/global.css";
+
+import AppProvider from "./providers/appProvider";
+import { Chats } from "./features/chat";
+
+
 
 function App() {
   return (
-    <Chat />
+    <AppProvider>
+      <Chats />
+    </AppProvider>
   );
 }
 
