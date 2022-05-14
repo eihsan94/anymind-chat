@@ -53,3 +53,8 @@ To learn React, check out the [React documentation](https://reactjs.org/).
     - DDD compliant
     - Scalable
 3. 
+
+## Folder directory
+<pre>
+ view/     view template for the app
+</pre>
