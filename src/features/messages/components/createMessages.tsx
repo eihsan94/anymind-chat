@@ -2,19 +2,44 @@ import { PrimaryButton } from '@/components/core-ui/button'
 import Icon from '@/components/core-ui/icons/icons'
 import { TextAreaInput } from '@/components/core-ui/inputs'
 import { Text } from '@/components/core-ui/text'
+import { useChannelContext } from '@/providers/channelProvider'
+import { useMessageContext } from '@/providers/messageProvider'
+import { useUserContext } from '@/providers/userProvider'
+import { AlertError } from '@/utils/errorAlertUtils'
 import styled from '@emotion/styled'
+import { useState } from 'react'
 import { GrSend } from 'react-icons/gr'
+import { usePostMessage } from '../api/postMesage'
 
 interface Props {
 }
 
 export function CreateMessage(props: Props) {
     // const { height } = props
+    const [text, setText] = useState("")
+    const { currentChannel } = useChannelContext()
+    const { currentUser } = useUserContext()
+    const { postMessage, loading } = usePostMessage()
+    const { addUnsentMessage } = useMessageContext()
+    const inputMessage = (typedText: string) => {
+        setText(typedText)
+    }
+
+    const sendMessage = async () => {
+        setText("")
+        try {
+            await postMessage({ variables: { text, channelId: currentChannel.channelId, userId: currentUser.userId } })
+        } catch (error: any) {
+            addUnsentMessage({ text, channelId: currentChannel.channelId, userId: currentUser.userId, messageId: "", datetime: (new Date().toISOString()) })
+            AlertError(error)
+        }
+    }
+
 
     return (
         <SendMessageContainer>
-            <TextAreaInput placeholder='Type your message here...' rows={5} />
-            <SendMessageButton />
+            <TextAreaInput value={text} onChange={evt => inputMessage(evt.target.value)} placeholder='Type your message here...' rows={5} />
+            <SendMessageButton loading={loading} onClick={sendMessage} />
         </SendMessageContainer>
     )
 }
@@ -24,16 +49,31 @@ const SendMessageContainer = styled.div`
     
 `
 
-function SendMessageButton(props: Props) {
-
+interface SendMessageButtonProps {
+    loading?: boolean;
+    onClick: () => void
+}
+function SendMessageButton(props: SendMessageButtonProps) {
+    const { loading, onClick } = props
+    const sendMessageHandler = () => {
+        if (!loading) {
+            onClick()
+        }
+    }
     return (
-        <PrimaryButton>
-            <Text styles={"margin-right: 5px;"}>
-                Send Message
-            </Text>
-            <Icon width={20} height={20} color="white" strokeWidth={1}>
-                <GrSend />
-            </Icon>
+        <PrimaryButton onClick={() => sendMessageHandler()}>
+            {
+                loading
+                    ? <Text>Sending...</Text>
+                    : <>
+                        <Text styles={"margin-right: 5px;"}>
+                            Send Message
+                        </Text>
+                        <Icon width={20} height={20} color="white" strokeWidth={1}>
+                            <GrSend />
+                        </Icon>
+                    </>
+            }
         </PrimaryButton >
     )
 }

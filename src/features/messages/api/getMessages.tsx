@@ -1,11 +1,10 @@
-import { useChannelContext } from '@/providers/channelProvider';
 import { parse } from '@/utils/dateUtils';
 import { gql, useQuery } from '@apollo/client';
 import { Message } from '../types';
 
-const MESSAGE_QUERY = (channelId: string) => gql`
-  query {
-    fetchLatestMessages(channelId: "${channelId}")  {
+export const GET_MESSAGES = gql`
+  query GetMessages($channelId: String!) {
+    fetchLatestMessages(channelId: $channelId)  {
       messageId
       datetime
       text
@@ -19,10 +18,11 @@ interface FetchLatestMessageQuery {
 }
 
 export const useMessages = (currentChannelId: string) => {
-  const { currentChannel } = useChannelContext()
-  const { loading, error, data, fetchMore } = useQuery<FetchLatestMessageQuery>(MESSAGE_QUERY(currentChannelId), {});
+  const { loading, error, data, fetchMore } = useQuery<FetchLatestMessageQuery>(GET_MESSAGES, {
+    variables: { channelId: currentChannelId }
+  });
   const getLatestMessage = () => {
-    fetchMore({ query: MESSAGE_QUERY(currentChannel.channelId) })
+    fetchMore({ query: GET_MESSAGES, variables: { channelId: currentChannelId } })
   }
   if (loading || error) {
     return {

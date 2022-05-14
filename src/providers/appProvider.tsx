@@ -7,6 +7,7 @@ import {
 import { API_URL } from '@/config';
 import { UserProvider } from './userProvider';
 import { ChannelProvider } from './channelProvider';
+import { MessageProvider } from './messageProvider';
 
 const gqlClient = new ApolloClient({
     uri: API_URL,
@@ -25,7 +26,9 @@ function AppProvider(props: AppProviderProps) {
         <ApolloProvider client={gqlClient}>
             <UserProvider>
                 <ChannelProvider>
-                    {children}
+                    <MessageProvider>
+                        {children}
+                    </MessageProvider>
                 </ChannelProvider>
             </UserProvider>
         </ApolloProvider>
