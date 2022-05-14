@@ -9,9 +9,9 @@ import { Text } from '../core-ui/text'
 interface Props { }
 
 function UserNav(props: Props) {
-    const { assignCurrentUser } = useUserContext()
-    const changeUser = (evt: any) => {
-        assignCurrentUser({ userId: evt.target.value })
+    const { assignCurrentUser, currentUser } = useUserContext()
+    const changeUser = (userId: string) => {
+        assignCurrentUser({ userId })
     }
 
     return (
@@ -19,7 +19,7 @@ function UserNav(props: Props) {
             <Text>
                 1. Choose your user
             </Text>
-            <Select onChange={(evt) => changeUser(evt)}>
+            <Select value={currentUser.userId} onChange={(evt) => changeUser(evt.target.value)}>
                 {MockUserSelectOptions.map((option, i) =>
                     <option key={i} value={option.userId}>{option.name}</option>
                 )}

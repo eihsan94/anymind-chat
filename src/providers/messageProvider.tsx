@@ -2,9 +2,7 @@ import { UnsentMessage } from "@/features/messages/types";
 import { makeUniqueId } from "@apollo/client/utilities";
 import { useState, createContext, useContext, ReactNode } from "react";
 
-const unsentMessagesInit: UnsentMessage[] = [
-    // { text: "error message", userId: "Russell", datetime: "2022-05-14T12:31:03.18346Z", channelId: "1", messageId: "test" }
-]
+const unsentMessagesInit: UnsentMessage[] = JSON.parse(localStorage.getItem("initUnsentMessages") || "[]")
 
 // Create Context Object
 export const AppContext = createContext({
@@ -25,15 +23,15 @@ export function MessageProvider(props: Props) {
         const messageId = makeUniqueId("unsent-message")
         const newMessage = { ...message, messageId }
         const currUnsentMessage = [...unsentMessages, newMessage]
+        localStorage.setItem("initUnsentMessages", JSON.stringify(currUnsentMessage))
         setUnsentMessages(currUnsentMessage)
     }
     const removeUnsentMessage = (message: UnsentMessage) => {
         const currUnsentMessage = [...unsentMessages].filter(m => m.messageId !== message.messageId)
-        console.log({ currUnsentMessage });
-
+        localStorage.setItem("initUnsentMessages", JSON.stringify(currUnsentMessage))
         setUnsentMessages(currUnsentMessage)
-
     }
+
     return (
         <AppContext.Provider value={{ unsentMessages, addUnsentMessage, removeUnsentMessage }}>
             {children}

@@ -10,6 +10,7 @@ import { CreateMessage } from './createMessages';
 import { useMessages } from '../api/getMessages';
 import { useChannelContext } from '@/providers/channelProvider';
 import { useEffect } from 'react';
+import { MockChannelData } from '@/mock/mockChannelData';
 
 interface Props { }
 
@@ -19,6 +20,7 @@ export function Messages(props: Props) {
     const footerHeight = 160
     const { currentChannel } = useChannelContext()
     const { loading, error, messages, getLatestMessage } = useMessages(currentChannel.channelId)
+    const channelName = MockChannelData.find(c => c.id === currentChannel.channelId)?.name
     useEffect(() => {
         console.log("getting the latest message");
         getLatestMessage()
@@ -36,7 +38,7 @@ export function Messages(props: Props) {
                         <Col size={8}>
                             <MessageMessageContainer>
                                 <MessageHeader height={headerHeight}>
-                                    <Heading2>Message header</Heading2>
+                                    <Heading2>{channelName} Channel</Heading2>
                                 </MessageHeader>
                                 <MessageBody headerHeight={headerHeight} footerHeight={footerHeight}>
                                     {
