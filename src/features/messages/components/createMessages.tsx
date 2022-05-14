@@ -4,7 +4,7 @@ import { TextAreaInput } from '@/components/core-ui/inputs'
 import { Text } from '@/components/core-ui/text'
 import { useChannelContext } from '@/providers/channelProvider'
 import { useDraftContext } from '@/providers/draftsProvider'
-import { useMessageContext } from '@/providers/messageProvider'
+import { useUnsentMessageContext } from '@/providers/unsentMessageProvider'
 import { useUserContext } from '@/providers/userProvider'
 import { AlertError } from '@/utils/errorAlertUtils'
 import styled from '@emotion/styled'
@@ -20,7 +20,7 @@ export function CreateMessage(props: Props) {
     const { currentChannel } = useChannelContext()
     const { currentUser } = useUserContext()
     const { postMessage, loading } = usePostMessage()
-    const { addUnsentMessage } = useMessageContext()
+    const { addUnsentMessage } = useUnsentMessageContext()
     const { drafts, addDraft, removeDraft, updateDraft } = useDraftContext()
     const [currDraft, setCurrDraft] = useState<Draft | undefined>()
     const inputMessage = (typedText: string) => {
@@ -39,11 +39,11 @@ export function CreateMessage(props: Props) {
     }
 
     const sendMessage = async () => {
+        if (currDraft) {
+            removeDraft(currDraft)
+        }
         try {
             await postMessage({ variables: { text: currDraft?.text, channelId: currentChannel.channelId, userId: currentUser.userId } })
-            if (currDraft) {
-                removeDraft(currDraft)
-            }
         } catch (error: any) {
             addUnsentMessage({ text: `${currDraft?.text}`, channelId: currentChannel.channelId, userId: currentUser.userId, messageId: "", datetime: (new Date().toISOString()) })
             AlertError(error)

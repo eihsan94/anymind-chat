@@ -1,14 +1,12 @@
-import { UnsentMessage } from "@/features/messages/types";
-import { makeUniqueId } from "@apollo/client/utilities";
+import { Message } from "@/features/messages/types";
 import { useState, createContext, useContext, ReactNode } from "react";
 
-const unsentMessagesInit: UnsentMessage[] = JSON.parse(localStorage.getItem("initUnsentMessages") || "[]")
+const messagesInit: Message[] = []
 
 // Create Context Object
 export const AppContext = createContext({
-    unsentMessages: unsentMessagesInit,
-    addUnsentMessage: (message: UnsentMessage) => { },
-    removeUnsentMessage: (message: UnsentMessage) => { },
+    messages: messagesInit,
+    updateMessages: (messages: Message[]) => { },
 });
 
 interface Props {
@@ -18,22 +16,13 @@ interface Props {
 // Create a provider for components to consume and subscribe to changes
 export function MessageProvider(props: Props) {
     const { children } = props
-    const [unsentMessages, setUnsentMessages] = useState<UnsentMessage[]>(unsentMessagesInit);
-    const addUnsentMessage = (message: UnsentMessage) => {
-        const messageId = makeUniqueId("unsent-message")
-        const newMessage = { ...message, messageId }
-        const currUnsentMessage = [...unsentMessages, newMessage]
-        localStorage.setItem("initUnsentMessages", JSON.stringify(currUnsentMessage))
-        setUnsentMessages(currUnsentMessage)
-    }
-    const removeUnsentMessage = (message: UnsentMessage) => {
-        const currUnsentMessage = [...unsentMessages].filter(m => m.messageId !== message.messageId)
-        localStorage.setItem("initUnsentMessages", JSON.stringify(currUnsentMessage))
-        setUnsentMessages(currUnsentMessage)
+    const [messages, setMessages] = useState<Message[]>(messagesInit);
+    const updateMessages = (newMessages: Message[]) => {
+        setMessages(newMessages)
     }
 
     return (
-        <AppContext.Provider value={{ unsentMessages, addUnsentMessage, removeUnsentMessage }}>
+        <AppContext.Provider value={{ messages, updateMessages }}>
             {children}
         </AppContext.Provider>
     );

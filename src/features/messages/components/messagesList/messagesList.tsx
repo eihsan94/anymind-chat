@@ -1,8 +1,9 @@
 import { useChannelContext } from '@/providers/channelProvider'
-import { useMessageContext } from '@/providers/messageProvider'
+import { useUnsentMessageContext } from '@/providers/unsentMessageProvider'
 import { useUserContext } from '@/providers/userProvider'
 import styled from '@emotion/styled'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
+import { fetchMoreMessages } from '../../api/fetchMoreMessages'
 import { Message } from '../../types'
 import MessageItem from './messagesItem'
 import ReadMoreMessageButton from './readMoreMessagesButton'
@@ -16,12 +17,20 @@ export function MessagesList(props: Props) {
     const { messages } = props
     const { currentChannel } = useChannelContext()
     const { currentUser } = useUserContext()
-    const { unsentMessages } = useMessageContext()
-    console.log({ unsentMessages });
+    const { unsentMessages } = useUnsentMessageContext()
+    const { channelId } = currentChannel
+    const [noMoreNextMessage, setNoMoreNextMessage] = useState(messages.length === 0)
+    const getMoreMessage = async (messageId: string, old: boolean) => {
+        const d = await fetchMoreMessages(channelId, messageId, old);
+        setNoMoreNextMessage(d.length === 0)
+    }
 
     return (
         <MessagesListContainer>
-            <PrevMessageButton />
+            {messages.length > 9 &&
+                <PrevMessageButtonContainer>
+                    <ReadMoreMessageButton type='PREV' onClick={() => getMoreMessage(messages[0].messageId, true)} />
+                </PrevMessageButtonContainer>}
             <MessageSection>
                 {messages.map((message, i) => <MessageItem key={i} message={message} isCurrentUser={message.userId === currentUser.userId} isSuccess={true} />)}
                 {unsentMessages.map((unsentMessage, i) =>
@@ -34,11 +43,18 @@ export function MessagesList(props: Props) {
                 )}
 
             </MessageSection>
-            <NextMessageButton />
+            {!noMoreNextMessage && <NextMessageButtonContainer>
+                <ReadMoreMessageButton type='NEXT' onClick={() => getMoreMessage(messages[messages.length - 1].messageId, false)} />
+            </NextMessageButtonContainer>}
         </MessagesListContainer>
     )
 }
 
+const MoreButtonStyle = `
+    z-index: 3;
+    width: 100%;
+    background-color: #F4F5FA;
+`
 
 const MessagesListContainer = styled.div`
     height: 100%;
@@ -48,27 +64,17 @@ const MessagesListContainer = styled.div`
 const PrevMessageButtonContainer = styled.div`
     position: absolute;
     top: 0;
+    ${MoreButtonStyle}
 `
-const PrevMessageButton = () => {
-    return (
-        <PrevMessageButtonContainer>
-            <ReadMoreMessageButton type='PREV' />
-        </PrevMessageButtonContainer>
-    )
-}
 
 const MessageSection = styled.div`
     padding: 3em 0;
+    height: calc(100% - 6em);
+    overflow: auto;
 `
 
 const NextMessageButtonContainer = styled.div`
     position: absolute;
     bottom: 0;
+    ${MoreButtonStyle}
 `
-const NextMessageButton = () => {
-    return (
-        <NextMessageButtonContainer>
-            <ReadMoreMessageButton type='NEXT' />
-        </NextMessageButtonContainer>
-    )
-}

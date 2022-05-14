@@ -3,7 +3,7 @@ import { IconButton } from '@/components/core-ui/button/iconButton';
 import Icon from '@/components/core-ui/icons/icons';
 import { Text } from '@/components/core-ui/text';
 import { MockUserImage } from '@/mock/mockUserData';
-import { useMessageContext } from '@/providers/messageProvider';
+import { useUnsentMessageContext } from '@/providers/unsentMessageProvider';
 import { fmtTime } from '@/utils/dateUtils';
 import { AlertError } from '@/utils/errorAlertUtils';
 import styled from '@emotion/styled'
@@ -25,7 +25,7 @@ function MessageItem(props: Props) {
     const { text, datetime, userId } = message
     const avatarImage = MockUserImage[userId]
     const { postMessage } = usePostMessage()
-    const { removeUnsentMessage } = useMessageContext()
+    const { removeUnsentMessage } = useUnsentMessageContext()
 
     const resendMessage = async () => {
         try {

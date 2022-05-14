@@ -2,9 +2,10 @@ import { parse } from '@/utils/dateUtils';
 import { gql, useQuery } from '@apollo/client';
 import { Message } from '../types';
 
-export const GET_MESSAGES = gql`
-  query GetMessages($channelId: String!) {
+export const FETCH_LATEST_MESSAGES = gql`
+  query FetchLatestMessages($channelId: String!) {
     fetchLatestMessages(channelId: $channelId)  {
+      __typename
       messageId
       datetime
       text
@@ -17,13 +18,16 @@ interface FetchLatestMessageQuery {
   fetchLatestMessages: Message[]
 }
 
-export const useMessages = (currentChannelId: string) => {
-  const { loading, error, data, fetchMore } = useQuery<FetchLatestMessageQuery>(GET_MESSAGES, {
+
+export const useFetchLatestMessages = (currentChannelId: string) => {
+  const { loading, error, data, fetchMore } = useQuery<FetchLatestMessageQuery>(FETCH_LATEST_MESSAGES, {
     variables: { channelId: currentChannelId }
   });
+
   const getLatestMessage = () => {
-    fetchMore({ query: GET_MESSAGES, variables: { channelId: currentChannelId } })
+    fetchMore({ query: FETCH_LATEST_MESSAGES, variables: { channelId: currentChannelId } })
   }
+
   if (loading || error) {
     return {
       loading,
@@ -35,6 +39,7 @@ export const useMessages = (currentChannelId: string) => {
 
   const unsortedMessages = data?.fetchLatestMessages || []
   const messages = [...unsortedMessages].sort((a, b) => (parse(a.datetime).getTime()) - (parse(b.datetime).getTime()))
+
   return {
     loading,
     error,

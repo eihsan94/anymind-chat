@@ -1,6 +1,6 @@
 import { gql, useMutation } from '@apollo/client';
 import { Message } from '../types';
-import { GET_MESSAGES } from './getMessages';
+import { FETCH_LATEST_MESSAGES } from './fetchLatestMessages';
 
 const POST_MESSAGE = gql`
 mutation PostMessage($channelId: String!, $text: String!, $userId: String!) {
@@ -20,8 +20,8 @@ interface PostMessageMutation {
 export const usePostMessage = () => {
   const [postMessage, { data, loading, error }] = useMutation<PostMessageMutation>(POST_MESSAGE, {
     refetchQueries: [
-      GET_MESSAGES, // DocumentNode object parsed with gql
-      'GetMessages' // Query name
+      FETCH_LATEST_MESSAGES, // DocumentNode object parsed with gql
+      'FetchLatestMessages' // Query name
     ],
   });
 
