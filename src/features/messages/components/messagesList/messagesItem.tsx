@@ -1,24 +1,41 @@
 import { Avatar } from '@/components/core-ui/avatar';
+import { IconButton } from '@/components/core-ui/button/iconButton';
 import Icon from '@/components/core-ui/icons/icons';
 import { Text } from '@/components/core-ui/text';
 import { MockUserImage } from '@/mock/mockUserData';
+import { useMessageContext } from '@/providers/messageProvider';
 import { fmtTime } from '@/utils/dateUtils';
+import { AlertError } from '@/utils/errorAlertUtils';
 import styled from '@emotion/styled'
-import { AiFillCheckCircle } from 'react-icons/ai';
+import { AiFillCheckCircle, AiOutlineReload } from 'react-icons/ai';
 import { MdError } from 'react-icons/md';
-import { Message } from '../../types';
+import { usePostMessage } from '../../api/postMesage';
+import { Message, UnsentMessage } from '../../types';
 
 
 interface Props {
     message: Message;
     isCurrentUser: boolean;
     isSuccess: boolean;
+    channelId?: string;
 }
 
 function MessageItem(props: Props) {
-    const { isCurrentUser, isSuccess, message } = props
+    const { isCurrentUser, isSuccess, message, channelId } = props
     const { text, datetime, userId } = message
     const avatarImage = MockUserImage[userId]
+    const { postMessage } = usePostMessage()
+    const { removeUnsentMessage } = useMessageContext()
+
+    const resendMessage = async () => {
+        try {
+            await postMessage({ variables: { userId: userId, channelId: channelId, text: text } })
+            const currUnsentMessage: UnsentMessage = { ...message, channelId: `${channelId}` }
+            removeUnsentMessage(currUnsentMessage)
+        } catch (error: any) {
+            AlertError(error)
+        }
+    }
     return (
         <MessageItemContainer isCurrentUser={isCurrentUser}>
             <Avatar image={avatarImage} name={message.userId} />
@@ -27,6 +44,9 @@ function MessageItem(props: Props) {
             </MessageBubble>
             <MessageStatus>
                 <MessageStatusContent>
+                    {
+                        !isSuccess && <IconButton onClick={resendMessage} Icon={<Icon height={17} width={17}><AiOutlineReload /></Icon>} />
+                    }
                     <Text>
                         {fmtTime(datetime)}
                     </Text>

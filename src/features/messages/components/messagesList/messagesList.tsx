@@ -1,5 +1,8 @@
+import { useChannelContext } from '@/providers/channelProvider'
+import { useMessageContext } from '@/providers/messageProvider'
 import { useUserContext } from '@/providers/userProvider'
 import styled from '@emotion/styled'
+import { Fragment } from 'react'
 import { Message } from '../../types'
 import MessageItem from './messagesItem'
 import ReadMoreMessageButton from './readMoreMessagesButton'
@@ -11,12 +14,25 @@ interface Props {
 
 export function MessagesList(props: Props) {
     const { messages } = props
+    const { currentChannel } = useChannelContext()
     const { currentUser } = useUserContext()
+    const { unsentMessages } = useMessageContext()
+    console.log({ unsentMessages });
+
     return (
         <MessagesListContainer>
             <PrevMessageButton />
             <MessageSection>
                 {messages.map((message, i) => <MessageItem key={i} message={message} isCurrentUser={message.userId === currentUser.userId} isSuccess={true} />)}
+                {unsentMessages.map((unsentMessage, i) =>
+                    <Fragment key={i}>
+                        {
+                            unsentMessage.userId === currentUser.userId && unsentMessage.channelId === currentChannel.channelId && <MessageItem message={unsentMessage} isCurrentUser={true} isSuccess={false} channelId={unsentMessage.channelId} />
+                        }
+                    </Fragment>
+
+                )}
+
             </MessageSection>
             <NextMessageButton />
         </MessagesListContainer>

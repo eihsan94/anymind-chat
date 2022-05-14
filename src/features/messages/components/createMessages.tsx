@@ -3,7 +3,9 @@ import Icon from '@/components/core-ui/icons/icons'
 import { TextAreaInput } from '@/components/core-ui/inputs'
 import { Text } from '@/components/core-ui/text'
 import { useChannelContext } from '@/providers/channelProvider'
+import { useMessageContext } from '@/providers/messageProvider'
 import { useUserContext } from '@/providers/userProvider'
+import { AlertError } from '@/utils/errorAlertUtils'
 import styled from '@emotion/styled'
 import { useState } from 'react'
 import { GrSend } from 'react-icons/gr'
@@ -18,15 +20,19 @@ export function CreateMessage(props: Props) {
     const { currentChannel } = useChannelContext()
     const { currentUser } = useUserContext()
     const { postMessage, loading } = usePostMessage()
-
+    const { addUnsentMessage } = useMessageContext()
     const inputMessage = (typedText: string) => {
         setText(typedText)
     }
 
-    const sendMessage = () => {
+    const sendMessage = async () => {
         setText("")
-        postMessage({ variables: { text, channelId: currentChannel.channelId, userId: currentUser.userId } })
-
+        try {
+            await postMessage({ variables: { text, channelId: currentChannel.channelId, userId: currentUser.userId } })
+        } catch (error: any) {
+            addUnsentMessage({ text, channelId: currentChannel.channelId, userId: currentUser.userId, messageId: "", datetime: (new Date().toISOString()) })
+            AlertError(error)
+        }
     }
 
 

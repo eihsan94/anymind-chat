@@ -4,3 +4,6 @@ export interface Message {
     text: string;
     userId: string;
 }
+export interface UnsentMessage extends Message {
+    channelId: string;
+}
