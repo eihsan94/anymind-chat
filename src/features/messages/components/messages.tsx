@@ -7,7 +7,7 @@ import { Theme } from '@/styles/theme';
 import styled from '@emotion/styled'
 import { MessagesList } from './messagesList';
 import { CreateMessage } from './createMessages';
-import { useMessages } from '../api/getMessages';
+import { useFetchLatestMessages } from '../api/fetchLatestMessages';
 import { useChannelContext } from '@/providers/channelProvider';
 import { useEffect } from 'react';
 import { MockChannelData } from '@/mock/mockChannelData';
@@ -19,7 +19,7 @@ export function Messages(props: Props) {
     const headerHeight = 50
     const footerHeight = 160
     const { currentChannel } = useChannelContext()
-    const { loading, error, messages, getLatestMessage } = useMessages(currentChannel.channelId)
+    const { loading, error, messages, getLatestMessage } = useFetchLatestMessages(currentChannel.channelId)
     const channelName = MockChannelData.find(c => c.id === currentChannel.channelId)?.name
     useEffect(() => {
         console.log("getting the latest message");
@@ -68,7 +68,6 @@ interface MessagesContainerProps {
 const MessagesContainer = styled.div<MessagesContainerProps>`
     background-color:#F4F5FA;
     height: ${({ topNavHeight }) => `calc(100vh - ${topNavHeight}px)`} ;
-    overflow: auto;
 `
 const MessageMessageContainer = styled.div`
     height: 100%;
@@ -94,7 +93,6 @@ interface MessageBodyProps {
 const MessageBody = styled.div<MessageBodyProps>`
     padding: 0 1em;
     height: ${({ headerHeight, footerHeight }) => `calc(100% - ${headerHeight + 1}px - ${footerHeight}px)`} ;
-    overflow: auto;
 `
 
 interface MessageFooterProps {

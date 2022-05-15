@@ -6,13 +6,14 @@ import { BsArrowDownShort, BsArrowUpShort } from 'react-icons/bs';
 
 interface Props {
     type: "PREV" | "NEXT";
+    onClick: () => void
 }
 
 function ReadMoreMessageButton(props: Props) {
-    const { type } = props
+    const { type, onClick } = props
 
     return (
-        <PrimaryButton>
+        <PrimaryButton onClick={onClick}>
             Read More
             <Icon width={20} height={20} color="white" strokeWidth={1}>
                 {type === "PREV" && <BsArrowUpShort />}

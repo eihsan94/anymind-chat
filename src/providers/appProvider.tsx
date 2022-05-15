@@ -7,12 +7,25 @@ import {
 import { API_URL } from '@/config';
 import { UserProvider } from './userProvider';
 import { ChannelProvider } from './channelProvider';
+import { UnsentMessageProvider } from './unsentMessageProvider';
 import { MessageProvider } from './messageProvider';
 import { DraftsProvider } from './draftsProvider';
 
-const gqlClient = new ApolloClient({
+export const gqlClient = new ApolloClient({
     uri: API_URL,
-    cache: new InMemoryCache()
+    cache: new InMemoryCache({
+        typePolicies: {
+            Query: {
+                fields: {
+                    fetchLatestMessages: {
+                        merge(existing = [], incoming: any[]) {
+                            return [...incoming];
+                        },
+                    },
+                }
+            }
+        }
+    })
 });
 
 
@@ -28,9 +41,11 @@ function AppProvider(props: AppProviderProps) {
             <UserProvider>
                 <ChannelProvider>
                     <MessageProvider>
-                        <DraftsProvider>
-                            {children}
-                        </DraftsProvider>
+                        <UnsentMessageProvider>
+                            <DraftsProvider>
+                                {children}
+                            </DraftsProvider>
+                        </UnsentMessageProvider>
                     </MessageProvider>
                 </ChannelProvider>
             </UserProvider>
