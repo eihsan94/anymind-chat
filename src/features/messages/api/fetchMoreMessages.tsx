@@ -1,8 +1,8 @@
 import { gqlClient } from '@/providers/appProvider';
-import { parse } from '@/utils/dateUtils';
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { FETCH_LATEST_MESSAGES } from '../hooks/fetchLatestMessages';
 import { Message } from '../types';
-import { FETCH_LATEST_MESSAGES } from './fetchLatestMessages';
+
 
 export const FETCH_MORE_MESSAGES = gql`
   query FetchMoreMessages($channelId: String!, $messageId: String!, $old:Boolean!) {
@@ -19,28 +19,6 @@ export const FETCH_MORE_MESSAGES = gql`
 interface FetchMoreMessageQuery {
   fetchMoreMessages: Message[]
 }
-
-export const useFetchMoreMessages = (currentChannelId: string, messageId: string, old: boolean) => {
-  const { loading, error, data } = useQuery<FetchMoreMessageQuery>(FETCH_MORE_MESSAGES, {
-    variables: { channelId: currentChannelId, messageId, old }
-  });
-  if (loading || error) {
-    return {
-      loading,
-      error,
-      messages: [],
-    };
-  }
-
-  const unsortedMessages = data?.fetchMoreMessages || []
-  const messages = [...unsortedMessages].sort((a, b) => (parse(a.datetime).getTime()) - (parse(b.datetime).getTime()))
-  return {
-    loading,
-    error,
-    messages,
-  };
-};
-
 
 export const fetchMoreMessages = async (currentChannelId: string, messageId: string, old: boolean) => {
   const { data } = await gqlClient.query<FetchMoreMessageQuery>({

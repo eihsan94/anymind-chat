@@ -7,7 +7,7 @@ import { Theme } from '@/styles/theme';
 import styled from '@emotion/styled'
 import { MessagesList } from './messagesList';
 import { CreateMessage } from './createMessages';
-import { useFetchLatestMessages } from '../api/fetchLatestMessages';
+import { useFetchLatestMessages } from '../hooks/fetchLatestMessages';
 import { useChannelContext } from '@/providers/channelProvider';
 import { useEffect } from 'react';
 import { MockChannelData } from '@/mock/mockChannelData';

@@ -25,7 +25,8 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "cypress open",
+    "open-test": "cypress open",
+    "test": "cypress run",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

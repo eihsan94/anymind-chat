@@ -10,7 +10,7 @@ import { AlertError } from '@/utils/errorAlertUtils'
 import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
 import { GrSend } from 'react-icons/gr'
-import { usePostMessage } from '../api/postMesage'
+import { usePostMessage } from '../hooks/postMesage'
 import { Draft } from '../types'
 
 interface Props {
