@@ -19,9 +19,9 @@ This project was created with below specs
 	Bootstrapped with: Create React App
 	State management library: react context & hooks & graphql cache
 	api library: apollo client
-    css library: emotion/styled components
-    test library: cypress
-    dir config library: craco 
+    	css library: emotion/styled components
+	test library: cypress
+    	dir config library: craco 
 </pre>
 
 ## SETUP
