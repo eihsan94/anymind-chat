@@ -16,10 +16,10 @@ function UserNav(props: Props) {
 
     return (
         <UserNavContainer>
-            <Text>
+            <Text id="userNavLabel">
                 1. Choose your user
             </Text>
-            <Select value={currentUser.userId} onChange={(evt) => changeUser(evt.target.value)}>
+            <Select value={currentUser.userId} onChange={(evt) => changeUser(evt.target.value)} id="selectUserInput">
                 {MockUserSelectOptions.map((option, i) =>
                     <option key={i} value={option.userId}>{option.name}</option>
                 )}

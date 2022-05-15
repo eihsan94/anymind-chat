@@ -8,7 +8,7 @@ interface Props {
 export function TopNav(props: Props) {
     const { height } = props
     return (
-        <TopNavContainer height={height}>
+        <TopNavContainer height={height} id="topNav">
             <Heading1>
                 1 day chat App
             </Heading1>
