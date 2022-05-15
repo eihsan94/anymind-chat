@@ -9,7 +9,7 @@ import { AlertError } from '@/utils/errorAlertUtils';
 import styled from '@emotion/styled'
 import { AiFillCheckCircle, AiOutlineReload } from 'react-icons/ai';
 import { MdError } from 'react-icons/md';
-import { usePostMessage } from '../../api/postMesage';
+import { usePostMessage } from '../../hooks/postMesage';
 import { Message, UnsentMessage } from '../../types';
 
 
