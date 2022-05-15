@@ -11,7 +11,7 @@ export function SideNav(props: Props) {
     // const {} = props
 
     return (
-        <SideNavContainer>
+        <SideNavContainer id="sideNav">
             <UserNav />
             <ChannelNav />
         </SideNavContainer>

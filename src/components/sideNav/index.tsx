@@ -1,1 +1,1 @@
-export * from "./sidenNav"
+export * from "./sideNav"

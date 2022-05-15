@@ -36,8 +36,8 @@ export function Messages(props: Props) {
                             <SideNav />
                         </Col>
                         <Col size={8}>
-                            <MessageMessageContainer>
-                                <MessageHeader height={headerHeight}>
+                            <MessageContent id="messagesContent">
+                                <MessageHeader height={headerHeight} id="messageHeader">
                                     <Heading2>{channelName} Channel</Heading2>
                                 </MessageHeader>
                                 <MessageBody headerHeight={headerHeight} footerHeight={footerHeight}>
@@ -52,7 +52,7 @@ export function Messages(props: Props) {
                                 <MessageFooter height={footerHeight}>
                                     <CreateMessage />
                                 </MessageFooter>
-                            </MessageMessageContainer>
+                            </MessageContent>
                         </Col>
                     </Row>
                 </Grid>
@@ -69,7 +69,7 @@ const MessagesContainer = styled.div<MessagesContainerProps>`
     background-color:#F4F5FA;
     height: ${({ topNavHeight }) => `calc(100vh - ${topNavHeight}px)`} ;
 `
-const MessageMessageContainer = styled.div`
+const MessageContent = styled.div`
     height: 100%;
 
 `

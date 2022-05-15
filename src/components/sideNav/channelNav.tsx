@@ -14,11 +14,11 @@ function ChannelNav(props: Props) {
 
     return (
         <ChannelNavContainer>
-            <Text>
+            <Text id="channelNavLabel">
                 2. Choose your Channel
             </Text>
-            <ChannelNavContent>
-                {MockChannelData.map((channel, i) => <ChannelNavItem key={i} onClick={() => goToChannel(channel.id)} isSelected={currentChannel.channelId === channel.id}>
+            <ChannelNavContent id="channelNavLists">
+                {MockChannelData.map((channel, i) => <ChannelNavItem id={`channel${channel.id}`} key={i} onClick={() => goToChannel(channel.id)} isSelected={currentChannel.channelId === channel.id}>
                     {channel.name} Channel
                 </ChannelNavItem>)}
             </ChannelNavContent>

@@ -54,8 +54,8 @@ export function CreateMessage(props: Props) {
     }, [currentChannel.channelId, currentUser.userId, drafts])
 
     return (
-        <SendMessageContainer>
-            <TextAreaInput value={currDraft ? currDraft.text : ""} onChange={evt => inputMessage(evt.target.value)} placeholder='Type your message here...' rows={5} />
+        <SendMessageContainer id="sendMessageContainer">
+            <TextAreaInput id="messageInput" value={currDraft ? currDraft.text : ""} onChange={evt => inputMessage(evt.target.value)} placeholder='Type your message here...' rows={5} />
             <SendMessageButton loading={loading} onClick={sendMessage} />
         </SendMessageContainer>
     )
@@ -78,7 +78,7 @@ function SendMessageButton(props: SendMessageButtonProps) {
         }
     }
     return (
-        <PrimaryButton onClick={() => sendMessageHandler()}>
+        <PrimaryButton onClick={() => sendMessageHandler()} id="sendMessageButton">
             {
                 loading
                     ? <Text>Sending...</Text>
